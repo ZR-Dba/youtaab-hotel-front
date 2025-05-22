@@ -120,7 +120,7 @@ function AvailableTables() {
 										<span>
 											{table.capacity
 												.toString()
-												.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d])}
+												.replace(/\d/g, (d: string) => "۰۱۲۳۴۵۶۷۸۹"[parseInt(d)])}
 										</span>
 
 										<FaUser />
