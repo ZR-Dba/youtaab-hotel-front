@@ -93,14 +93,10 @@ function Reserve() {
 			let tables = [];
 			try {
 				tables = await getTables(reservationData);
-			} catch (error) {
-				console.error("Search failed:", {
-					message: error.message,
-					response: error.response?.data,
-					status: error.response?.status,
-				});
+			} catch (error:any) {
+				console.error("Search failed:");
 				if (error.response?.status === 404) {
-					tables = []; // برای 404، آرایه خالی تنظیم کن
+					tables = []; 
 					toast.warn("هیچ میزی برای این تعداد نفر و زمان یافت نشد");
 				} else {
 					toast.error("خطا در جستجوی میزها. لطفاً دوباره امتحان کنید.");

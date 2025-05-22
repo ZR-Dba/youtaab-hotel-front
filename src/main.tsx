@@ -13,6 +13,8 @@ import { CartProvider } from "./Components/CartContext.tsx";
 import SelectService from "./Components/selectService.tsx";
 import { ToastContainer } from "react-toastify"; 
 import "react-toastify/dist/ReactToastify.css"; 
+import SuccessOrder from "./Components/successOrder.tsx";
+import OrderDetail from "./Components/viewOrderDetail.tsx";
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
@@ -25,6 +27,8 @@ createRoot(document.getElementById("root")!).render(
 					<Route path="/detail" element={<TableDetail />} />
 					<Route path="/confirmation" element={<ReservationConfirmation />} />
 					<Route path="/success" element={<ConfirmationSuccess />} />
+					<Route path="/successOrder" element={<SuccessOrder />} />
+					<Route path="/orderDetail" element={<OrderDetail />} />
 					<Route path="/menu" element={<Menu />} />
 					<Route path="/selectService" element={<SelectService />} />
 				</Routes>

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { FaBars, FaChevronDown } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { v4 as uuidv4 } from "uuid";
 import icon from "../assets/images/logo.png";
 import foodImage from "../assets/images/omlet.jpeg";
 import { useCart } from "./CartContext";
@@ -15,18 +16,26 @@ interface Table {
 	description?: string;
 }
 
-const getAllTables = async () => {
+const getAllTables = async (sessionId: string) => {
 	try {
-		// const response = await axios.get("http://localhost:3000/tables");
 		const response = await axios.get(
 			`${import.meta.env.VITE_API_BASE_URL}${
 				import.meta.env.VITE_TABLES_ENDPOINT
-			}`
+			}`,
+			{
+				headers: {
+					"x-session-id": sessionId,
+				},
+			}
 		);
-		console.log("API Response:", response.data);
+		console.log("Tables API Response:", response.data);
 		return response.data;
-	} catch (error) {
-		console.error("Error fetching tables:", error);
+	} catch (error: any) {
+		console.error(
+			"Error fetching tables:",
+			error.response?.data || error.message
+		);
+		toast.error("خطا در دریافت لیست میزها");
 		throw error;
 	}
 };
@@ -36,19 +45,28 @@ function SelectService() {
 	const [selectedTable, setSelectedTable] = useState("");
 	const [additionalNotes, setAdditionalNotes] = useState("");
 	const [tables, setTables] = useState<Table[]>();
+	const [customerName, setCustomerName] = useState<string>("");
+	const [customerPhone, setCustomerPhone] = useState<string>("");
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		getAllTables().then((tables) => setTables(tables));
-	}, []);
+	const [sessionId] = useState<string>(() => {
+		const existingId = localStorage.getItem("sessionId");
+		if (existingId) return existingId;
+		const newId = uuidv4();
+		localStorage.setItem("sessionId", newId);
+		return newId;
+	});
 
-	// محاسبه مجموع قیمت
+	useEffect(() => {
+		console.log("sessionId:", sessionId);
+		getAllTables(sessionId).then((tables) => setTables(tables));
+	}, [sessionId]);
+
 	const totalPrice = Object.entries(cart).reduce((sum, [itemId, quantity]) => {
 		const item = allMenuItems.find((i) => i.id === parseInt(itemId));
 		return sum + (item ? item.fee * quantity : 0);
 	}, 0);
 
-	// تغییر تعداد آیتم
 	const updateQuantity = (itemId: number, delta: number) => {
 		setCart((prev) => {
 			const newQuantity = (prev[itemId] || 0) + delta;
@@ -60,19 +78,103 @@ function SelectService() {
 		});
 	};
 
-	const handlePayment = () => {
+	const handlePayment = async () => {
 		if (!selectedTable) {
-			alert("لطفاً یک میز انتخاب کنید");
+			toast.error("لطفاً یک میز انتخاب کنید");
 			return;
 		}
-		console.log("سفارش:", { cart, selectedTable, additionalNotes, totalPrice });
-		navigate("/success");
-		toast.success(`سفارش شما با موفقیت برای میز شماره ${selectedTable} ثبت شد`);
+		if (!customerName) {
+			toast.error("لطفاً نام خود را وارد کنید");
+			return;
+		}
+		if (!customerPhone) {
+			toast.error("لطفاً شماره تماس خود را وارد کنید");
+			return;
+		}
+		if (Object.keys(cart).length === 0) {
+			toast.error("سبد خرید خالی است");
+			return;
+		}
+
+		// اعتبارسنجی tableId
+		const tableId = parseInt(selectedTable);
+
+		const validCartItems = Object.entries(cart).filter(([itemId]) =>
+			allMenuItems.some((item) => item.id === parseInt(itemId))
+		);
+		if (validCartItems.length === 0) {
+			toast.error("هیچ آیتم معتبری در سبد خرید نیست");
+			return;
+		}
+
+		const totalQuantity = Object.values(cart).reduce(
+			(sum, qty) => sum + qty,
+			0
+		);
+		const cartData = {
+			menuItemId: Object.keys(cart)[0],
+			quantity: totalQuantity,
+		};
+
+		const orderData = {
+			customerName,
+			phoneNumber: customerPhone,
+			description: additionalNotes,
+			tableId,
+		};
+
+		console.log("selectedTable:", selectedTable);
+		console.log("tableId:", tableId);
+		console.log("cartData:", cartData);
+		console.log("orderData:", orderData);
+		console.log("sessionId:", sessionId);
+
+		try {
+			const cartResponse = await axios.post(
+				`${import.meta.env.VITE_API_BASE_URL}${
+					import.meta.env.VITE_CART_ADD_ENDPOINT
+				}`,
+				cartData,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"x-session-id": sessionId,
+					},
+				}
+			);
+			console.log("Cart API Response:", cartResponse.data);
+
+			const orderResponse = await axios.post(
+				`${import.meta.env.VITE_API_BASE_URL}${
+					import.meta.env.VITE_RESERVATIONS_SET_ORDER
+				}`,
+				orderData,
+				{
+					headers: {
+						"Content-Type": "application/json",
+						"x-session-id": sessionId,
+					},
+				}
+			);
+			console.log("Order API Response:", orderResponse.data);
+
+			localStorage.removeItem("sessionId");
+
+			navigate("/successOrder");
+			toast.success(
+				`سفارش شما با موفقیت برای میز شماره ${selectedTable} ثبت شد`
+			);
+		} catch (error: any) {
+			console.error("خطا در ثبت سفارش:", error.response?.data || error.message);
+			toast.error(
+				"خطا در ثبت سفارش: " +
+					(error.response?.data?.message || "لطفاً دوباره امتحان کنید")
+			);
+		}
 	};
 
 	return (
 		<div className="flex flex-col h-screen bg-[#FBFBFB]">
-			{/* navbar */}
 			<nav
 				className="w-full bg-white flex items-center justify-between border-b"
 				style={{ borderBottomColor: "#BB995B" }}
@@ -90,11 +192,36 @@ function SelectService() {
 				</Link>
 			</nav>
 
-			{/* order details */}
 			<div className="p-6 mx-4 bg-white rounded-lg shadow-xs my-4">
-				<h2 className="text-xs text-[#BB995B] text-center pb-6">
+				<h2 className="text-sm text-[#BB995B] text-center pb-6">
 					:اطلاعات تکمیلی سفارش
 				</h2>
+				<div>
+					<label className="block text-sm text-[#1B1D1D] text-right my-3">
+						نام
+					</label>
+					<input
+						type="text"
+						placeholder="..."
+						value={customerName}
+						required
+						onChange={(e) => setCustomerName(e.target.value)}
+						className="w-full h-12 p-2 border border-gray-300 rounded-lg text-left text-xs focus:outline-none focus:ring-1 focus:ring-[#138F96] placeholder:text-[#138F96]"
+					/>
+				</div>
+				<div>
+					<label className="block text-sm text-[#1B1D1D] text-right my-3">
+						شماره تماس
+					</label>
+					<input
+						type="tel"
+						placeholder="0917..."
+						value={customerPhone}
+						required
+						onChange={(e) => setCustomerPhone(e.target.value)}
+						className="w-full h-12 p-2 border border-gray-300 rounded-lg text-left text-xs focus:outline-none focus:ring-1 focus:ring-[#138F96] placeholder:text-[#138F96] mb-3"
+					/>
+				</div>
 				<div className="mb-4">
 					<label className="block text-sm text-[#1B1D1D] text-right mb-2">
 						نام میز را انتخاب کنید
@@ -105,7 +232,7 @@ function SelectService() {
 							onChange={(e) => setSelectedTable(e.target.value)}
 							className="w-full p-3 pl-10 border border-gray-300 rounded-lg text-right text-sm focus:outline-none focus:ring-2 focus:ring-[#138F96] appearance-none bg-white"
 						>
-							<option value=""></option>
+							<option value="">انتخاب میز</option>
 							{tables?.map((table) => (
 								<option key={table.id} value={table.id}>
 									{table.name}
@@ -116,7 +243,7 @@ function SelectService() {
 					</div>
 				</div>
 				<div>
-					<label className="block text-sm text-[#868686] text-right mb-2">
+					<label className="block text-sm text-[#1B1D1D] text-right mb-2">
 						توضیحات اضافه
 					</label>
 					<textarea
@@ -128,7 +255,6 @@ function SelectService() {
 				</div>
 			</div>
 
-			{/* user order*/}
 			<div className="flex-1 shadow-xs overflow-y-auto p-6 mx-4 mb-30 rounded-lg bg-white">
 				<h2 className="text-sm text-[#BB995B] text-center pb-6">سفارش شما</h2>
 				{Object.entries(cart).length === 0 ? (
@@ -144,7 +270,6 @@ function SelectService() {
 									key={itemId}
 									className="bg-white rounded-lg shadow-xs overflow-hidden flex transition-transform transform hover:scale-105 border border-[#C9C9C93D]"
 								>
-									{/* اطلاعات غذا */}
 									<div className="p-3 flex-1">
 										<h3 className="text-sm text-[#1B1D1D] font-bold text-right">
 											{item.title}
@@ -156,14 +281,14 @@ function SelectService() {
 											<div className="flex items-center gap-2">
 												<button
 													onClick={() => updateQuantity(item.id, 1)}
-													className={`w-6 h-6 rounded-lg text-[#BB995B] border border-[#C9C9C97D] `}
+													className="w-6 h-6 rounded-lg text-[#BB995B] border border-[#C9C9C97D]"
 												>
 													+
 												</button>
 												<span className="text-sm">{quantity}</span>
 												<button
 													onClick={() => updateQuantity(item.id, -1)}
-													className={`w-6 h-6 rounded-lg text-[#BB995B] border border-[#C9C9C97D] `}
+													className="w-6 h-6 rounded-lg text-[#BB995B] border border-[#C9C9C97D]"
 												>
 													-
 												</button>
@@ -173,7 +298,6 @@ function SelectService() {
 											</p>
 										</div>
 									</div>
-									{/* عکس غذا */}
 									<div className="p-4">
 										<img
 											src={foodImage}
@@ -188,13 +312,12 @@ function SelectService() {
 				)}
 			</div>
 
-			{/* footer*/}
 			<div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#BB995B] p-5 flex justify-between items-center">
 				<button
 					onClick={handlePayment}
 					className="bg-[#138F96] text-white font-bold py-4 px-6 rounded-4xl hover:bg-[#0F767B] transition-colors"
 				>
-					تایید نهایی
+					تأیید نهایی
 				</button>
 				<div className="text-right">
 					<p className="text-sm text-[#1B1D1D]">مجموع سفارش</p>

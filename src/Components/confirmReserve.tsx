@@ -68,23 +68,6 @@ function ReservationConfirmation() {
 				throw new Error("Payment failed");
 			}
 
-			// const response = await axios.post(
-			// 	"http://localhost:3000/reservations/create",
-			// 	{
-			// 		tableId: paymentData.tableId,
-			// 		date: paymentData.date,
-			// 		hour: paymentData.hour,
-			// 		duration: paymentData.duration,
-			// 		people: paymentData.people,
-			// 		phone: paymentData.phone,
-			// 		description: paymentData.description,
-			// 	},
-			// 	{
-			// 		headers: {
-			// 			"Content-Type": "application/json",
-			// 		},
-			// 	}
-			// );
 
 			const response = await axios.post(
 				`${import.meta.env.VITE_API_BASE_URL}${
