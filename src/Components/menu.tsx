@@ -130,10 +130,10 @@ function Menu() {
 		<div className="flex flex-col h-screen bg-[#FBFBFB]">
 			{/* navbar*/}
 			<nav
-				className="w-full bg-white flex items-center justify-between border-b"
+				className="w-full bg-white flex items-center justify-between border-b h-15"
 				style={{ borderBottomColor: "#BB995B" }}
 			>
-				<button className="text-2xl focus:outline-none p-6 text-[#138F96]">
+				<button className="text-2xl focus:outline-none px-6 text-[#138F96]">
 					<FaBars />
 				</button>
 				<Link to="/" className="flex items-center gap-2">
@@ -147,7 +147,7 @@ function Menu() {
 			</nav>
 
 			{/*header image */}
-			<div className="w-full h-70">
+			<div className="w-full h-40">
 				<img
 					src={headerImage}
 					alt="Menu Header"
@@ -156,8 +156,8 @@ function Menu() {
 			</div>
 
 			{/* categories*/}
-			<div className="w-full overflow-x-auto bg-white mb-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
-				<div className="flex w-max py-8 px-2 whitespace-nowrap flex-nowrap">
+			<div className="w-full overflow-x-auto bg-white scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
+				<div className="flex w-max py-4 px-2 whitespace-nowrap flex-nowrap">
 					{categories?.map((category) => (
 						<button
 							key={category.id}
@@ -255,10 +255,10 @@ function Menu() {
 			</div>
 
 			{/* price footer*/}
-			<div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#BB995B] p-5 flex justify-between items-center">
+			<div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#BB995B] p-2 flex justify-between items-center">
 				<button
 					onClick={() => navigate("/selectService")} // هدایت به صفحه جدید
-					className="bg-[#138F96] text-white font-bold py-4 px-6 rounded-4xl hover:bg-[#0F767B] transition-colors"
+					className="bg-[#138F96] text-white font-bold py-3 px-4 rounded-4xl hover:bg-[#0F767B] transition-colors"
 				>
 					تأیید سفارش
 				</button>

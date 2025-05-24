@@ -115,8 +115,8 @@ function Reserve() {
 	return (
 		<div className="flex flex-col h-screen bg-[#FBFBFB]">
 			{/* navbar*/}
-			<nav className="w-full bg-[#FFFFFF] flex items-center justify-between">
-				<button className="text-2xl focus:outline-none p-6 text-[#138F96]">
+			<nav className="w-full bg-[#FFFFFF] flex items-center justify-between h-15">
+				<button className="text-2xl focus:outline-none px-6 text-[#138F96]">
 					<FaBars />
 				</button>
 				<Link to="/" className="flex items-center gap-2">

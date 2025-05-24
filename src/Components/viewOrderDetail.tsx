@@ -21,10 +21,10 @@ function OrderDetails() {
 		<div className="flex flex-col h-screen bg-[#FBFBFB]">
 			{/* Navbar */}
 			<nav
-				className="w-full bg-white flex items-center justify-between border-b"
+				className="w-full bg-white flex items-center justify-between border-b h-15"
 				style={{ borderBottomColor: "#BB995B" }}
 			>
-				<button className="text-2xl focus:outline-none p-6 text-[#138F96]">
+				<button className="text-2xl focus:outline-none px-6 text-[#138F96]">
 					<FaBars />
 				</button>
 				<Link to="/" className="flex items-center gap-2">

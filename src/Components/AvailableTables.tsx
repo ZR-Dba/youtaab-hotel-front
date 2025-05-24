@@ -53,10 +53,10 @@ function AvailableTables() {
 	return (
 		<div className="flex flex-col h-screen bg-[#FBFBFB]">
 			<nav
-				className="w-full bg-white flex items-center justify-between border"
+				className="w-full bg-white flex items-center justify-between border h-15"
 				style={{ borderColor: "#BB995B" }}
 			>
-				<button className="text-2xl focus:outline-none p-6 text-[#138F96]">
+				<button className="text-2xl focus:outline-none px-6 text-[#138F96]">
 					<FaBars />
 				</button>
 				<Link to="/" className="flex items-center gap-2">
