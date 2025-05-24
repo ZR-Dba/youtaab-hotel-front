@@ -15,7 +15,7 @@ function Reserve() {
 	const [date, setDate] = useState<Date | null>(null); // برای تقویم شمسی
 	const [hour, setHour] = useState(""); // تغییر time به hour
 	const [loading, setLoading] = useState(false);
-	const [fetcheTables, setTables] = useState<any[]>([]);
+	const [_, setTables] = useState<any[]>([]);
 	const times = ["ساعت ۳", "۲ ساعت", "۱ ساعت"];
 	const navigate = useNavigate();
 
@@ -62,13 +62,16 @@ function Reserve() {
 			setTables(response.data);
 			return response.data;
 		} catch (error) {
-			console.error("Error fetching tables:", {
-				message: error.message,
-				response: error.response?.data,
-				status: error.response?.status,
-				params,
-			});
-			throw error;
+			if (error instanceof Error) {
+				const err = error as any; // or as AxiosError if using Axios
+				return {
+				message: err.message,
+				response: err.response?.data,
+				status: err.response?.status,
+				};
+			} else {
+				return { message: String(error) };
+			}
 		}
 	};
 
