@@ -86,12 +86,7 @@ function App() {
 						alt="Restaurant"
 						className="h-full w-full object-cover"
 					/>
-					{/* <img
-            src={log0}
-            alt="Overlay"
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-24 h-24"
-            style={{ width: "300px", height: "auto" }}
-          /> */}
+
 					<img
 						src={log0}
 						alt="Youtaab Restaurant Logo"
