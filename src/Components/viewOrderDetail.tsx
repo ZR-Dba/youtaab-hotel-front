@@ -39,7 +39,7 @@ function OrderDetails() {
 
 			{/* تیتر */}
 			<div className="p-6 mx-4">
-				<h2 className="text-sm text-[#BB995B] text-center pb-6">سفارش شما</h2>
+				<h2 className="text-sm text-[#BB995B] text-center">سفارش شما</h2>
 			</div>
 
 			{/* لیست آیتم‌های سفارش */}

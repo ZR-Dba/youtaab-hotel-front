@@ -558,9 +558,9 @@ function SelectService() {
               <select
                 value={selectedTable}
                 onChange={(e) => setSelectedTable(e.target.value)}
-                className="w-full p-3 pl-10 border border-gray-300 rounded-lg text-right text-sm focus:outline-none focus:ring-2 focus:ring-[#138F96] appearance-none bg-white h-8"
+                className="w-full px-3 pl-10 border border-gray-300 rounded-lg text-right text-sm focus:outline-none focus:ring-2 focus:ring-[#138F96] appearance-none bg-white h-8"
               >
-                <option value="">انتخاب میز</option>
+                <option value=""></option>
                 {tables?.map((table) => (
                   <option key={table.id} value={table.id}>
                     {table.name}
@@ -594,47 +594,48 @@ function SelectService() {
               {Object.entries(cart).map(([itemId, quantity]) => {
                 const item = allMenuItems.find((i) => i.id === parseInt(itemId));
                 return item ? (
-                  <div
-                    key={itemId}
-                    className="bg-white rounded-lg shadow-xs overflow-hidden flex transition-transform transform hover:scale-105 border border-[#C9C9C93D]"
-                  >
-                    <div className="p-3 flex-1">
-                      <h3 className="text-sm text-[#1B1D1D] font-bold text-right">
-                        {item.title}
-                      </h3>
-                      <p className="text-xs text-[#868686] text-right mt-1 line-clamp-2">
-                        {item.description}
-                      </p>
-                      <div className="flex justify-between items-center mt-4">
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => updateQuantity(item.id, 1)}
-                            className="w-6 h-6 rounded-lg text-[#BB995B] border border-[#C9C9C97D]"
-                          >
-                            +
-                          </button>
-                          <span className="text-sm">{quantity}</span>
-                          <button
-                            onClick={() => updateQuantity(item.id, -1)}
-                            className="w-6 h-6 rounded-lg text-[#BB995B] border border-[#C9C9C97D]"
-                          >
-                            -
-                          </button>
-                        </div>
-                        <p className="text-sm text-[#138F96] font-bold">
-                          {(item.fee * quantity).toLocaleString()} تومان
-                        </p>
-                      </div>
-                    </div>
-                    <div className="p-4">
-                      <img
-                        src={foodImage}
-                        alt={item.title}
-                        className="w-24 h-24 object-cover rounded-lg"
-                      />
-                    </div>
-                  </div>
-                ) : null;
+									<div
+										key={itemId}
+										className="bg-white rounded-lg shadow-xs overflow-hidden flex transition-transform transform hover:scale-105 border border-[#C9C9C93D]"
+									>
+										<div className="p-3 flex-1">
+											<h3 className="text-sm text-[#1B1D1D] font-bold text-right">
+												{item.title}
+											</h3>
+											<p className="text-xs text-[#868686] text-right mt-1 line-clamp-2">
+												{item.description}
+											</p>
+											<div className="flex justify-between items-center mt-4">
+												<div className="flex items-center gap-2">
+													<button
+														onClick={() => updateQuantity(item.id, 1)}
+														className="w-6 h-6 rounded-lg text-[#BB995B] border border-[#C9C9C97D]"
+													>
+														+
+													</button>
+													<span className="text-sm">{quantity}</span>
+													<button
+														onClick={() => updateQuantity(item.id, -1)}
+														className="w-6 h-6 rounded-lg text-[#BB995B] border border-[#C9C9C97D]"
+													>
+														-
+													</button>
+												</div>
+												<p className="text-xs text-[#138F96] font-bold" dir="rtl">
+													{(item.fee * quantity).toLocaleString()}
+													{/* <span>تومان</span> */}
+												</p>
+											</div>
+										</div>
+										<div className="p-4">
+											<img
+												src={foodImage}
+												alt={item.title}
+												className="w-24 h-24 object-cover rounded-lg"
+											/>
+										</div>
+									</div>
+								) : null;
               })}
             </div>
           )}
