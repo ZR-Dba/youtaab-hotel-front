@@ -98,7 +98,7 @@ function App() {
             .به رستوران هتل یوتاب خوش آمدید
           </div>
           <div>
-			<div className="flex flex-col sm:flex-row gap-6">
+			<div className="flex flex-row sm:flex-row gap-6">
             <Link
               to="/reserve"
               className="w-1/2 flex flex-row items-center justify-center"
