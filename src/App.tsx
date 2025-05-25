@@ -89,7 +89,7 @@ function App() {
           <img
             src={log0}
             alt="Youtaab Restaurant Logo"
-            className="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-[50%] w-[180px] sm:w-[300px] h-auto z-10"
+            className="absolute left-1/2 bottom-0 translate-x-[-50%] translate-y-[50%] w-[300px] sm:w-[300px] h-auto z-10"
           />
         </div>
 
