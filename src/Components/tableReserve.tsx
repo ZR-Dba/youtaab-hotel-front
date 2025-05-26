@@ -25,9 +25,9 @@ function Reserve() {
 	const getDuration = (time: string): number => {
 		switch (time) {
 			case "ساعت ۳":
-				return 3;
+				return 1;
 			case "۲ ساعت":
-				return 2;
+				return 1;
 			case "۱ ساعت":
 				return 1;
 			default:
@@ -63,7 +63,7 @@ function Reserve() {
 			return response.data;
 		} catch (error) {
 			if (error instanceof Error) {
-				const err = error as any; // or as AxiosError if using Axios
+				const err = error as any; 
 				return {
 				message: err.message,
 				response: err.response?.data,
