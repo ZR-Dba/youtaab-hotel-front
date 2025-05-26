@@ -32,8 +32,7 @@ function Menu() {
   const [searchQuery, setSearchQuery] = useState("");
   const [categories, setCategories] = useState<Category[]>();
 
-  const primaryColor = import.meta.env.VITE_PRIMARY_COLOR;
-	// const secondaryColor = import.meta.env.VITE_SECONDARY_COLOR;
+
 	// const homeImage = import.meta.env.VITE_HOME_IMAGE;
 
   const navigate = useNavigate();
@@ -130,10 +129,7 @@ function Menu() {
   return (
 		<div className="flex flex-col h-screen bg-[#FBFBFB]">
 			{/* navbar */}
-			<nav
-				className="w-full bg-white flex items-center justify-between border-b h-15"
-				style={{ borderBottomColor: primaryColor }}
-			>
+			<nav className="w-full bg-white flex items-center border-[#BB995B] justify-between border-b h-15">
 				<button className="text-2xl focus:outline-none px-6 text-[#138F96]">
 					<FaBars />
 				</button>
@@ -233,8 +229,7 @@ function Menu() {
 												<button
 													disabled={!item.available}
 													onClick={() => updateQuantity(item.id, 1)}
-													className="w-6 h-6 rounded-lg border border-[#C9C9C97D]"
-													style={{ color: primaryColor }}
+													className="w-6 h-6 rounded-lg border border-[#C9C9C97D] text-[#BB995B]"
 												>
 													+
 												</button>
@@ -242,8 +237,7 @@ function Menu() {
 												<button
 													disabled={!item.available}
 													onClick={() => updateQuantity(item.id, -1)}
-													className="w-6 h-6 rounded-lg  border border-[#C9C9C97D]"
-													style={{ color: primaryColor }}
+													className="w-6 h-6 rounded-lg  border border-[#C9C9C97D] text-[#BB995B]"
 												>
 													-
 												</button>
@@ -268,7 +262,7 @@ function Menu() {
 
 			{/* price footer */}
 			<div
-				className={`fixed bottom-0 left-0 right-0 bg-white border-t border-[${primaryColor}] p-2 flex justify-between items-center`}
+				className={`fixed bottom-0 left-0 right-0 bg-white border-t border-[#BB995B] p-2 flex justify-between items-center`}
 			>
 				<button
 					onClick={() => navigate("/selectService")}

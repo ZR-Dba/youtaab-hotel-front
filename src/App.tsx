@@ -4,12 +4,11 @@ import { Link } from "react-router-dom";
 import "./App.css";
 import log0 from "./assets/images/logo.png";
 import "./index.css";
+import homeImage from "./assets/images/home.png";
 
 function App() {
-	const primaryColor = import.meta.env.VITE_PRIMARY_COLOR;
-	const homeImage = import.meta.env.VITE_HOME_IMAGE;
+	
 
-	console.log("color", primaryColor);
 	return (
 		<div className="min-h-screen bg-[#FBFBFB] sm:bg-white flex justify-center">
 			<div className="w-full sm:max-w-[640px] flex flex-col h-screen sm:h-auto sm:my-8">
