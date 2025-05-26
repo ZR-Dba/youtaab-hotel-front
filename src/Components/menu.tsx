@@ -33,8 +33,8 @@ function Menu() {
   const [categories, setCategories] = useState<Category[]>();
 
   const primaryColor = import.meta.env.VITE_PRIMARY_COLOR;
-	const secondaryColor = import.meta.env.VITE_SECONDARY_COLOR;
-	const homeImage = import.meta.env.VITE_HOME_IMAGE;
+	// const secondaryColor = import.meta.env.VITE_SECONDARY_COLOR;
+	// const homeImage = import.meta.env.VITE_HOME_IMAGE;
 
   const navigate = useNavigate();
 
