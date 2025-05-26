@@ -11,7 +11,7 @@ import icon from "../assets/images/logo.png";
 
 function Reserve() {
 	const [guests, setGuests] = useState(1);
-	const [selectedTime, setSelectedTime] = useState("");
+	const [selectedTime, setSelectedTime] = useState<string>("");
 	const [date, setDate] = useState<Date | null>(null); // برای تقویم شمسی
 	const [hour, setHour] = useState(""); // تغییر time به hour
 	const [loading, setLoading] = useState(false);
@@ -22,18 +22,18 @@ function Reserve() {
 	const incrementGuests = () => setGuests((prev) => Math.min(prev + 1, 10));
 	const decrementGuests = () => setGuests((prev) => Math.max(prev - 1, 1));
 
-	const getDuration = (time: string): number => {
-		switch (time) {
-			case "ساعت ۳":
-				return 1;
-			case "۲ ساعت":
-				return 1;
-			case "۱ ساعت":
-				return 1;
-			default:
-				return 0;
-		}
-	};
+	// const getDuration = (time: string): number => {
+	// 	switch (time) {
+	// 		case "ساعت ۳":
+	// 			return 1;
+	// 		case "۲ ساعت":
+	// 			return 1;
+	// 		case "۱ ساعت":
+	// 			return 1;
+	// 		default:
+	// 			return 1;
+	// 	}
+	// };
 
 	const getTables = async (params: {
 		date: string;
@@ -63,11 +63,11 @@ function Reserve() {
 			return response.data;
 		} catch (error) {
 			if (error instanceof Error) {
-				const err = error as any; 
+				const err = error as any;
 				return {
-				message: err.message,
-				response: err.response?.data,
-				status: err.response?.status,
+					message: err.message,
+					response: err.response?.data,
+					status: err.response?.status,
 				};
 			} else {
 				return { message: String(error) };
@@ -83,7 +83,7 @@ function Reserve() {
 				return;
 			}
 			const formattedDate = date.toISOString().split("T")[0];
-			const duration = getDuration(selectedTime);
+			const duration = 1;
 
 			const reservationData = {
 				date: formattedDate,
@@ -96,14 +96,14 @@ function Reserve() {
 			let tables = [];
 			try {
 				tables = await getTables(reservationData);
-			} catch (error:any) {
+			} catch (error: any) {
 				console.error("Search failed:");
 				if (error.response?.status === 404) {
-					tables = []; 
+					tables = [];
 					toast.warn("هیچ میزی برای این تعداد نفر و زمان یافت نشد");
 				} else {
 					toast.error("خطا در جستجوی میزها. لطفاً دوباره امتحان کنید.");
-					return; // برای خطاهای دیگه، متوقف کن
+					return; 
 				}
 			}
 			navigate("/tables", { state: { reservationData, tables } });
