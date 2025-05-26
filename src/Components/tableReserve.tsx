@@ -11,12 +11,12 @@ import icon from "../assets/images/logo.png";
 
 function Reserve() {
 	const [guests, setGuests] = useState(1);
-	const [selectedTime, setSelectedTime] = useState<string>("");
+	const [selectedTime] = useState<string>("");
 	const [date, setDate] = useState<Date | null>(null); // برای تقویم شمسی
 	const [hour, setHour] = useState(""); // تغییر time به hour
 	const [loading, setLoading] = useState(false);
 	const [_, setTables] = useState<any[]>([]);
-	const times = ["ساعت ۳", "۲ ساعت", "۱ ساعت"];
+	// const times = ["ساعت ۳", "۲ ساعت", "۱ ساعت"];
 	const navigate = useNavigate();
 
 	const incrementGuests = () => setGuests((prev) => Math.min(prev + 1, 10));
