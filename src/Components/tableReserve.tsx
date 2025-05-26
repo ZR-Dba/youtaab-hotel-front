@@ -15,7 +15,7 @@ function Reserve() {
 	const [hour, setHour] = useState(""); // تغییر time به hour
 	const [loading, setLoading] = useState(false);
 	const [_, setTables] = useState<any[]>([]);
-	const times = ["ساعت ۳", "۲ ساعت", "۱ ساعت"];
+	// const times = ["ساعت ۳", "۲ ساعت", "۱ ساعت"];
 	const navigate = useNavigate();
 
 	const incrementGuests = () => setGuests((prev) => Math.min(prev + 1, 10));
