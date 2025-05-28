@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { default as icon, default as noImage } from "../assets/images/logo.png";
 import headerImage from "../assets/images/omlet.jpeg";
 import { useCart } from "./CartContext";
+import { toFarsiNumber } from "../Utils/setNumbersToPersian";
 
 interface MenuItem {
   id: number;
@@ -163,7 +164,7 @@ function Menu() {
 
 						{/* sticky categories */}
 						<div className="sticky top-0 z-10 w-full overflow-x-auto bg-white scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100">
-							<div className="flex w-max py-4 px-2 whitespace-nowrap flex-nowrap">
+							<div className="flex w-full py-4 px-2 whitespace-nowrap flex-nowrap justify-end">
 								{categories?.map((category) => (
 									<button
 										key={category.id}
@@ -238,7 +239,7 @@ function Menu() {
 															+
 														</button>
 														<span className="text-sm">
-															{cart[item.id] || 0}
+															{toFarsiNumber(cart[item.id] || 0)}
 														</span>
 														<button
 															disabled={!item.available}
@@ -249,7 +250,7 @@ function Menu() {
 														</button>
 													</div>
 													<p className="text-sm text-[#138F96] font-bold">
-														{item.fee} تومان
+														{toFarsiNumber(item.fee)} تومان
 													</p>
 												</div>
 											</div>
@@ -279,7 +280,7 @@ function Menu() {
 						<div className="text-right">
 							<p className="text-sm text-[#1B1D1D]">مجموع سفارش</p>
 							<p className="text-sm font-bold">
-								{totalPrice.toLocaleString()} تومان
+								{toFarsiNumber(totalPrice.toLocaleString())} تومان
 							</p>
 						</div>
 					</div>

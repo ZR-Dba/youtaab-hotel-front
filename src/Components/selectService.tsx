@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
 import icon from "../assets/images/logo.png";
 import foodImage from "../assets/images/omlet.jpeg";
+import { toFarsiNumber } from "../Utils/setNumbersToPersian";
 import { useCart } from "./CartContext";
 
 interface Table {
@@ -122,12 +123,6 @@ function SelectService() {
 			tableId,
 		};
 
-		console.log("selectedTable:", selectedTable);
-		console.log("tableId:", tableId);
-		console.log("cartData:", cartData);
-		console.log("orderData:", orderData);
-		console.log("sessionId:", sessionId);
-
 		try {
 			const cartResponse = await axios.post(
 				`${import.meta.env.VITE_API_BASE_URL}${
@@ -160,9 +155,7 @@ function SelectService() {
 			localStorage.removeItem("sessionId");
 
 			navigate("/successOrder");
-			toast.success(
-				`سفارش شما با موفقیت برای میز شماره ${selectedTable} ثبت شد`
-			);
+			toast.success(`سفارش شما با موفقیت برای میز شماره ثبت شد`);
 		} catch (error: any) {
 			console.error("خطا در ثبت سفارش:", error.response?.data || error.message);
 			toast.error(
@@ -209,11 +202,11 @@ function SelectService() {
 								</label>
 								<input
 									type="text"
-									placeholder="..."
+									placeholder="نام و نام خانوادگی"
 									value={customerName}
 									required
 									onChange={(e) => setCustomerName(e.target.value)}
-									className="w-full h-8 p-2 border border-gray-300 rounded-lg text-left text-xs focus:outline-none focus:ring-1 focus:ring-[#138F96] placeholder:text-[#138F96]"
+									className="w-full h-8 p-2 border border-gray-300 rounded-lg text-right text-xs focus:outline-none focus:ring-1 focus:ring-[#138F96] placeholder:text-[#138F96]"
 								/>
 							</div>
 							<div>
@@ -222,7 +215,7 @@ function SelectService() {
 								</label>
 								<input
 									type="tel"
-									placeholder="0917..."
+									placeholder="۰۹..."
 									value={customerPhone}
 									required
 									onChange={(e) => setCustomerPhone(e.target.value)}
@@ -296,7 +289,9 @@ function SelectService() {
 															>
 																+
 															</button>
-															<span className="text-sm">{quantity}</span>
+															<span className="text-sm">
+																{toFarsiNumber(quantity)}
+															</span>
 															<button
 																onClick={() => updateQuantity(item.id, -1)}
 																className="w-6 h-6 rounded-lg text-[#BB995B] border border-[#C9C9C97D]"
@@ -308,7 +303,9 @@ function SelectService() {
 															className="text-xs text-[#138F96] font-bold"
 															dir="rtl"
 														>
-															{(item.fee * quantity).toLocaleString()}
+															{toFarsiNumber(
+																(item.fee * quantity).toLocaleString()
+															)}
 														</p>
 													</div>
 												</div>
@@ -337,7 +334,7 @@ function SelectService() {
 						<div className="text-right">
 							<p className="text-sm text-[#1B1D1D]">مجموع سفارش</p>
 							<p className="text-sm font-bold">
-								{totalPrice.toLocaleString()} تومان
+								{toFarsiNumber(totalPrice.toLocaleString())} تومان
 							</p>
 						</div>
 					</div>

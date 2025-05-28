@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import icon from "../assets/images/logo.png";
 import foodImage from "../assets/images/omlet.jpeg";
 import { useCart } from "./CartContext";
+import { toFarsiNumber } from "../Utils/setNumbersToPersian";
 
 function OrderDetails() {
 	const { cart, allMenuItems } = useCart();
@@ -67,10 +68,13 @@ function OrderDetails() {
 													{item.title}
 												</h3>
 												<p className="text-xs text-[#868686] text-right mt-1">
-													تعداد: {quantity}
+													تعداد: {toFarsiNumber(quantity)}
 												</p>
 												<p className="text-sm text-[#138F96] font-bold text-right mt-1">
-													{(item.fee * quantity).toLocaleString()} تومان
+													{toFarsiNumber(
+														(item.fee * quantity).toLocaleString()
+													)}{" "}
+													تومان
 												</p>
 											</div>
 											{/* عکس غذا */}
@@ -95,14 +99,14 @@ function OrderDetails() {
 						</h3>
 						<div className="flex justify-between text-sm text-[#1B1D1D] mb-2">
 							<div className="flex items-center gap-1" dir="rtl">
-								{orderTotal.toLocaleString()}
+								{toFarsiNumber(orderTotal.toLocaleString())}
 								<span>تومان</span>
 							</div>
 							<span>:هزینه سفارش</span>
 						</div>
 						<div className="flex justify-between text-sm text-[#1B1D1D] mb-2">
 							<span className="flex items-center gap-1" dir="rtl">
-								{tax.toLocaleString()}
+								{toFarsiNumber(tax.toLocaleString())}
 								<span>تومان</span>
 							</span>
 							<span>:مالیات (۱۰٪)</span>
@@ -112,7 +116,7 @@ function OrderDetails() {
 						<div className="flex justify-between text-sm">
 							<span className="flex items-center gap-1" dir="rtl">
 								<span>تومان</span>
-								{grandTotal.toLocaleString()}
+								{toFarsiNumber(grandTotal.toLocaleString())}
 							</span>
 							<span>:مجموع کل</span>
 						</div>
