@@ -57,11 +57,11 @@ function ReservationConfirmation() {
 				phone,
 				name,
 				description: notes,
-				date: reservationData.date, 
+				date: reservationData.date,
 				hour: reservationData.hour,
 				duration: reservationData.duration,
 				people: reservationData.people,
-				amount: 100000, 
+				amount: 100000,
 			};
 
 			console.log("Initiating payment with data:", paymentData);
@@ -70,7 +70,6 @@ function ReservationConfirmation() {
 			if (!paymentSuccessful) {
 				throw new Error("Payment failed");
 			}
-
 
 			const response = await axios.post(
 				`${import.meta.env.VITE_API_BASE_URL}${
@@ -182,7 +181,7 @@ function ReservationConfirmation() {
 									:نام
 								</label>
 								<input
-									type="tel"
+									type="text"
 									value={name}
 									required
 									placeholder="نام و نام خانوادگی"
