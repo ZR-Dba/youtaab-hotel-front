@@ -10,7 +10,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import table1 from "../assets/images/home.png";
 import icon from "../assets/images/logo.png";
 import { toFarsiNumber } from "../Utils/setNumbersToPersian";
-import moment from "moment-jalaali";
+
+interface ITable {
+	name: string;
+	photo: string;
+	id: number;
+	capacity: number;
+}
 
 function AvailableTables() {
 	const { state } = useLocation();
@@ -29,10 +35,10 @@ function AvailableTables() {
 
 	
 	const persianUpDate = persianDate
-		? persianDate.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[parseInt(d)])
+		? persianDate.replace(/\d/g, (d:string) => "۰۱۲۳۴۵۶۷۸۹"[parseInt(d)])
 		: "";
 
-	const selectTable = (table: string) => {
+	const selectTable = (table: ITable) => {
 		navigate("/detail", {
 			state: { reservationData, selectedTable: table, persianDate },
 		});
@@ -120,7 +126,7 @@ function AvailableTables() {
 							notableFound()
 						) : (
 							<div className="grid grid-cols-2 gap-4">
-								{tables?.map((table: any) => (
+								{tables?.map((table: ITable) => (
 									<div
 										key={table.id}
 										className="bg-white rounded-[16px] shadow-lg p-2 gap-3 flex flex-col items-center border border-[#C9C9C93D]"

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import moment from "moment-jalaali";
 import { useState } from "react";
 import persian from "react-date-object/calendars/persian";
@@ -11,12 +11,19 @@ import reserveImage from "../assets/images/home.png";
 import icon from "../assets/images/logo.png";
 import { toFarsiNumber } from "../Utils/setNumbersToPersian";
 
+interface ITable {
+	name: string;
+	photo: string;
+	id: number;
+	capacity: number;
+}
+
 function Reserve() {
 	const [guests, setGuests] = useState(1);
 	const [date, setDate] = useState<Date | null>(null);
-	const [hour, setHour] = useState();
+	const [hour, setHour] = useState("");
 	const [loading, setLoading] = useState(false);
-	const [_, setTables] = useState<any[]>([]);
+	const [_, setTables] = useState<ITable[]>([]);
 	// const times = ["ساعت ۳", "۲ ساعت", "۱ ساعت"];
 	const navigate = useNavigate();
 
@@ -59,7 +66,7 @@ function Reserve() {
 			return response.data;
 		} catch (error) {
 			if (error instanceof Error) {
-				const err = error as any;
+				const err = error as AxiosError;
 				return {
 					message: err.message,
 					response: err.response?.data,

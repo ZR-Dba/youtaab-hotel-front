@@ -17,7 +17,7 @@ function TableDetail() {
 	console.log("persianDate", persianDate);
 
 	const persianUpDate = persianDate
-		? persianDate.replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[parseInt(d)])
+		? persianDate.replace(/\d/g, (d:string) => "۰۱۲۳۴۵۶۷۸۹"[parseInt(d)])
 		: "";
 
 

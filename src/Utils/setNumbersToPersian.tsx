@@ -1,2 +1,2 @@
-export const toFarsiNumber = (n) =>
-	n.toString().replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[d]);
+export const toFarsiNumber = (n:any) =>
+	n.toString().replace(/\d/g, (d:number) => "۰۱۲۳۴۵۶۷۸۹"[d]);
