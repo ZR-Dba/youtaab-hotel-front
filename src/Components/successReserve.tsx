@@ -9,22 +9,25 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import icon from "../assets/images/logo.png";
 import { MdMenuBook } from "react-icons/md";
 import { toFarsiNumber } from "../Utils/setNumbersToPersian";
+import { useState } from "react";
 
 function ConfirmationSuccess() {
 	const { state } = useLocation();
 	const { reservationData, selectedTable } = state || {};
+		const [isMenuOpen, setIsMenuOpen] = useState(false);
+	
 	const navigate = useNavigate();
 
 	return (
 		<div className="min-h-screen bg-[#FBFBFB] sm:bg-white flex justify-center">
 			<div className="w-full sm:max-w-[600px] flex flex-col h-screen sm:h-auto sm:my-8">
 				<div className="flex flex-col h-screen bg-[#FBFBFB]">
-					{/* نوار ناوبری */}
-					<nav
-						className="w-full bg-white flex items-center justify-between border-b h-15"
-						style={{ borderBottomColor: "#BB995B" }}
-					>
-						<button className="text-2xl focus:outline-none px-6 text-[#138F96]">
+					{/* navbar*/}
+					<nav className="w-full bg-[#FFFFFF] flex items-center justify-between h-15">
+						<button
+							className="text-2xl focus:outline-none px-6 text-[#138F96]"
+							onClick={() => setIsMenuOpen(!isMenuOpen)}
+						>
 							<FaBars />
 						</button>
 						<Link to="/" className="flex items-center gap-2">
@@ -36,6 +39,24 @@ function ConfirmationSuccess() {
 							/>
 						</Link>
 					</nav>
+
+					{/* menu */}
+					{isMenuOpen && (
+						<div className="absolute mt-14 w-35 bg-white rounded-sm shadow-md z-50 text-sm text-gray-700 flex flex-col">
+							<Link
+								to="/reserve"
+								className="px-4 py-2 font-bold text-[#138F96] text-right"
+							>
+								رزرو میز
+							</Link>
+							<Link
+								to="/menu"
+								className="px-4 py-2 font-bold text-[#138F96] text-right"
+							>
+								مشاهده منو
+							</Link>
+						</div>
+					)}
 
 					{/* متن مسیر */}
 					<div className="px-4 py-2 text-xs text-[#868686] text-right">

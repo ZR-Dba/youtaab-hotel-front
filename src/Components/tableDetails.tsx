@@ -3,10 +3,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import table1 from "../assets/images/home.png";
 import icon from "../assets/images/logo.png";
 import { toFarsiNumber } from "../Utils/setNumbersToPersian";
+import { useState } from "react";
 
 function TableDetail() {
 	const { state } = useLocation();
 	const { reservationData, selectedTable, persianDate } = state || {};
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const navigate = useNavigate();
 
 	const completeReservation = () => {
@@ -17,20 +19,19 @@ function TableDetail() {
 	console.log("persianDate", persianDate);
 
 	const persianUpDate = persianDate
-		? persianDate.replace(/\d/g, (d:string) => "۰۱۲۳۴۵۶۷۸۹"[parseInt(d)])
+		? persianDate.replace(/\d/g, (d: string) => "۰۱۲۳۴۵۶۷۸۹"[parseInt(d)])
 		: "";
-
 
 	return (
 		<div className="min-h-screen bg-[#FBFBFB] sm:bg-white flex justify-center">
 			<div className="w-full sm:max-w-[600px] flex flex-col h-screen sm:h-auto sm:my-8">
 				<div className="flex flex-col h-screen bg-[#FBFBFB]">
-					{/* نوار ناوبری */}
-					<nav
-						className="w-full bg-white flex items-center justify-between border-b h-15"
-						style={{ borderBottomColor: "#BB995B" }}
-					>
-						<button className="text-2xl focus:outline-none px-6 text-[#138F96]">
+					{/* navbar*/}
+					<nav className="w-full bg-[#FFFFFF] flex items-center justify-between h-15">
+						<button
+							className="text-2xl focus:outline-none px-6 text-[#138F96]"
+							onClick={() => setIsMenuOpen(!isMenuOpen)}
+						>
 							<FaBars />
 						</button>
 						<Link to="/" className="flex items-center gap-2">
@@ -43,6 +44,24 @@ function TableDetail() {
 						</Link>
 					</nav>
 
+					{/* menu */}
+					{isMenuOpen && (
+						<div className="absolute mt-14 w-35 bg-white rounded-sm shadow-md z-50 text-sm text-gray-700 flex flex-col">
+							<Link
+								to="/reserve"
+								className="px-4 py-2 font-bold text-[#138F96] text-right"
+							>
+								رزرو میز
+							</Link>
+							<Link
+								to="/menu"
+								className="px-4 py-2 font-bold text-[#138F96] text-right"
+							>
+								مشاهده منو
+							</Link>
+						</div>
+					)}
+
 					<p className="text-xs text-right text-[#868686] py-3 px-4">
 						{" "}
 						رزرو میز / جیستجو / اطلاعات میز
@@ -50,7 +69,7 @@ function TableDetail() {
 					{/* تصویر میز */}
 					<div className="h-1/3 w-full p-3">
 						<img
-							src={table1}
+							src={selectedTable.photo || table1}
 							alt={selectedTable?.number}
 							className="h-full w-full object-cover rounded-3xl"
 						/>

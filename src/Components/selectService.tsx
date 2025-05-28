@@ -48,6 +48,7 @@ function SelectService() {
 	const [tables, setTables] = useState<Table[]>();
 	const [customerName, setCustomerName] = useState<string>("");
 	const [customerPhone, setCustomerPhone] = useState<string>("");
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const navigate = useNavigate();
 
 	const [sessionId] = useState<string>(() => {
@@ -169,11 +170,12 @@ function SelectService() {
 		<div className="min-h-screen bg-[#FBFBFB] sm:bg-white flex justify-center">
 			<div className="w-full sm:max-w-[600px] flex flex-col h-screen sm:h-auto sm:my-8">
 				<div className="flex flex-col h-screen bg-[#FBFBFB]">
-					<nav
-						className="w-full bg-white flex items-center justify-between border-b h-15"
-						style={{ borderBottomColor: "#BB995B" }}
-					>
-						<button className="text-2xl focus:outline-none px-6 text-[#138F96]">
+					{/* navbar*/}
+					<nav className="w-full bg-[#FFFFFF] flex items-center justify-between h-15">
+						<button
+							className="text-2xl focus:outline-none px-6 text-[#138F96]"
+							onClick={() => setIsMenuOpen(!isMenuOpen)}
+						>
 							<FaBars />
 						</button>
 						<Link to="/" className="flex items-center gap-2">
@@ -185,6 +187,24 @@ function SelectService() {
 							/>
 						</Link>
 					</nav>
+
+					{/* menu */}
+					{isMenuOpen && (
+						<div className="absolute mt-14 w-35 bg-white rounded-sm shadow-md z-50 text-sm text-gray-700 flex flex-col">
+							<Link
+								to="/reserve"
+								className="px-4 py-2 font-bold text-[#138F96] text-right"
+							>
+								رزرو میز
+							</Link>
+							<Link
+								to="/menu"
+								className="px-4 py-2 font-bold text-[#138F96] text-right"
+							>
+								مشاهده منو
+							</Link>
+						</div>
+					)}
 
 					<div
 						className="flex-1 overflow-y-auto mb-10"
@@ -256,9 +276,17 @@ function SelectService() {
 						</div>
 
 						<div className="p-6 mx-4 mb-4 rounded-lg bg-white shadow-xs">
-							<h2 className="text-sm text-[#BB995B] text-center pb-6">
-								سفارش شما
-							</h2>
+							<div className="flex justify-between items-center">
+								<Link
+									to="/menu"
+									className="text-sm text-[#138F96] text-center pb-6"
+								>
+									بازگشت به منو
+								</Link>
+								<h2 className="text-sm text-[#BB995B] text-center pb-6">
+									سفارش شما
+								</h2>
+							</div>
 							{Object.entries(cart).length === 0 ? (
 								<p className="text-sm text-[#868686] text-right">
 									هنوز هیچ سفارشی ثبت نکرده اید

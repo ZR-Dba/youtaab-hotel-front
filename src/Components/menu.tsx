@@ -32,6 +32,7 @@ function Menu() {
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [categories, setCategories] = useState<Category[]>();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 
 	// const homeImage = import.meta.env.VITE_HOME_IMAGE;
@@ -131,9 +132,12 @@ function Menu() {
 		<div className="min-h-screen bg-[#FBFBFB] sm:bg-white flex justify-center">
 			<div className="w-full sm:max-w-[600px] flex flex-col h-screen sm:h-auto sm:my-8">
 				<div className="flex flex-col h-screen bg-[#FBFBFB]">
-					{/* navbar */}
-					<nav className="w-full bg-white flex items-center border-[#BB995B] justify-between border-b h-15">
-						<button className="text-2xl focus:outline-none px-6 text-[#138F96]">
+					{/* navbar*/}
+					<nav className="w-full bg-[#FFFFFF] flex items-center justify-between h-15">
+						<button
+							className="text-2xl focus:outline-none px-6 text-[#138F96]"
+							onClick={() => setIsMenuOpen(!isMenuOpen)}
+						>
 							<FaBars />
 						</button>
 						<Link to="/" className="flex items-center gap-2">
@@ -146,6 +150,23 @@ function Menu() {
 						</Link>
 					</nav>
 
+					{/* menu */}
+					{isMenuOpen && (
+						<div className="absolute mt-14 w-35 bg-white rounded-sm shadow-md z-50 text-sm text-gray-700 flex flex-col">
+							<Link
+								to="/reserve"
+								className="px-4 py-2 font-bold text-[#138F96] text-right"
+							>
+								رزرو میز
+							</Link>
+							<Link
+								to="/menu"
+								className="px-4 py-2 font-bold text-[#138F96] text-right"
+							>
+								مشاهده منو
+							</Link>
+						</div>
+					)}
 					{/* scrollable content */}
 					<div
 						className="flex-1 overflow-y-auto mb-20"
