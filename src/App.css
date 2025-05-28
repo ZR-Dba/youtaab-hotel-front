@@ -45,3 +45,7 @@
 body {
   font-family: 'Vazirmatn', sans-serif;
 }
+
+.rmdp-container {
+  width: 100% !important;
+}

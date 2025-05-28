@@ -11,7 +11,7 @@ function App() {
 
 	return (
 		<div className="min-h-screen bg-[#FBFBFB] sm:bg-white flex justify-center">
-			<div className="w-full sm:max-w-[640px] flex flex-col h-screen sm:h-auto sm:my-8">
+			<div className="w-full sm:max-w-[600px] flex flex-col h-screen sm:h-auto sm:my-8">
 				<div className="relative w-full h-[50vh] min-h-[200px]">
 					<img
 						src={homeImage}
